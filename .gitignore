@@ -1,0 +1,13 @@
+# Fichiers de données
+data/
+data/*.csv
+
+# Modèles
+models/*.joblib
+
+# Dossiers temporaires
+__pycache__/
+.ipynb_checkpoints/
+
+# Fichiers Python générés
+*.pyc
