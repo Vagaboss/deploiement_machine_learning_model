@@ -8,7 +8,8 @@ import joblib
 from src.preprocessing import preprocess_data
 
 # Chargement des données
-df = pd.read_csv("2016_Building_Energy_Benchmarking.csv")
+df = pd.read_csv("data/2016_Building_Energy_Benchmarking.csv")
+
 
 # Prétraitement
 X_train, X_test, y_train, y_test = preprocess_data(df)
