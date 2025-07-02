@@ -6,7 +6,7 @@ from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from src.preprocessing import preprocess_data
 
 # Charger les données brutes
-df = pd.read_csv("2016_Building_Energy_Benchmarking.csv")
+df = pd.read_csv("data/2016_Building_Energy_Benchmarking.csv")
 
 # Appliquer le prétraitement
 X_train, X_test, y_train, y_test = preprocess_data(df)
