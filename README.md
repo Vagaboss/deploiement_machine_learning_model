@@ -65,4 +65,4 @@ Ce projet vise à démontrer :
 ## 👤 Réalisé par
 
 **Yacine Ould**  
-Projet réalisé dans le cadre de la formation Data Scientist – OpenClassrooms.
+Projet réalisé dans le cadre de la formation Data Scientist – OpenClassrooms
