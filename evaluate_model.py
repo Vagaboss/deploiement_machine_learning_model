@@ -1,32 +1,38 @@
 
+import joblib
 import pandas as pd
 import numpy as np
-import joblib
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
-from src.preprocessing import preprocess_data
 
-# Charger les données brutes
+# Charger les données
 df = pd.read_csv("data/2016_Building_Energy_Benchmarking.csv")
 
-# Appliquer le prétraitement
-X_train, X_test, y_train, y_test = preprocess_data(df)
+# Même nettoyage minimal qu'avant
+df = df[df["BuildingType"] == "NonResidential"]
+df = df[df["SiteEnergyUse(kBtu)"] > 0]
+df = df[df["OSEBuildingID"] != 25772]
+df["EUI"] = df["SiteEnergyUse(kBtu)"] / df["PropertyGFATotal"]
+df = df[df["EUI"] <= 500]
+df = df[df["EUI"] >= 3.7]
+df = df[(df["NumberofBuildings"] != 0) & (df["NumberofFloors"] != 0)]
+df = df[df["ComplianceStatus"] != "Error - Correct Default Data"]
+df["Age"] = 2015 - df["YearBuilt"]
+df["HasGas"] = df["NaturalGas(kBtu)"] > 0
+df["HasElectricity"] = df["Electricity(kWh)"] > 0
 
-# Charger le modèle sauvegardé
-model = joblib.load("models/best_random_forest_model.joblib")
+# Variables explicatives et cible
+X = df[["PropertyGFATotal", "NumberofFloors", "Age", "HasGas", "HasElectricity",
+        "PrimaryPropertyType", "Neighborhood", "PropertyTypeGrouped"]]
+y = df["SiteEnergyUse(kBtu)"]
+
+# Charger le modèle complet
+model = joblib.load("models/best_rf_pipeline.joblib")
 
 # Prédictions
-y_pred_test = model.predict(X_test)
-y_pred_train = model.predict(X_train)
+y_pred = model.predict(X)
 
-# Affichage des métriques
-print("\n=== ÉVALUATION DU MODÈLE ===")
-
-# Test
-print("TEST R²:", r2_score(y_test, y_pred_test))
-print("TEST MAE:", mean_absolute_error(y_test, y_pred_test))
-print("TEST RMSE:", np.sqrt(mean_squared_error(y_test, y_pred_test)))
-
-# Train
-print("\nTRAIN R²:", r2_score(y_train, y_pred_train))
-print("TRAIN MAE:", mean_absolute_error(y_train, y_pred_train))
-print("TRAIN RMSE:", np.sqrt(mean_squared_error(y_train, y_pred_train)))
+# Évaluation
+print("\n=== ÉVALUATION DU MODÈLE (pipeline complet) ===")
+print("TEST R²:", r2_score(y, y_pred))
+print("TEST MAE:", mean_absolute_error(y, y_pred))
+print("TEST RMSE:", np.sqrt(mean_squared_error(y, y_pred)))
