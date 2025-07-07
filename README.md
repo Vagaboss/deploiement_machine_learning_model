@@ -1,7 +1,7 @@
 # 🏙️ Prédiction de la Consommation d'Énergie des Bâtiments à Seattle
 
 Ce projet de Machine Learning vise à prédire la consommation d’énergie des bâtiments non résidentiels de Seattle, en se basant sur des données publiques de 2016.  
-L’objectif est d’industrialiser un modèle en le structurant dans un projet Python versionné avec Git, prêt à être utilisé, évalué, maintenu et déployé.
+L’objectif est d’**industrialiser un modèle** en le structurant dans un projet Python versionné avec Git, prêt à être exécuté, évalué, maintenu et déployé via CI/CD.
 
 ---
 
@@ -14,7 +14,7 @@ git clone <url-du-repo>
 cd gitP3
 ```
 
-### 3. Installez les dépendances
+### 2. Installez les dépendances
 
 ```bash
 pip install -r requirements.txt
@@ -30,6 +30,7 @@ Le fichier `2016_Building_Energy_Benchmarking.csv` doit être placé dans le dos
 
 ---
 
+
 ## ▶️ Exécution
 
 ### 🔹 Entraînement du modèle
@@ -38,9 +39,9 @@ Le fichier `2016_Building_Energy_Benchmarking.csv` doit être placé dans le dos
 python train_model.py
 ```
 
-- Effectue le nettoyage, la préparation, l'encodage et la standardisation des données
-- Recherche les meilleurs hyperparamètres via GridSearchCV
-- Enregistre le meilleur modèle dans `models/best_random_forest_model.joblib`
+- Nettoie, encode et standardise les données
+- Entraîne un `RandomForestRegressor` avec `GridSearchCV`
+- Enregistre le modèle dans `models/best_rf_pipeline.joblib`
 
 ### 🔹 Évaluation du modèle
 
@@ -48,21 +49,62 @@ python train_model.py
 python evaluate_model.py
 ```
 
-- Recharge le modèle sauvegardé
-- Affiche les scores sur le jeu d'entraînement et de test (R², MAE, RMSE)
+- Recharge le modèle
+- Affiche les performances :
+  - R² (coefficient de détermination)
+  - MAE (erreur absolue moyenne)
+  - RMSE (racine de l'erreur quadratique moyenne)
 
 ---
 
-## 📌 Objectifs pédagogiques
+## 🔁 Intégration Continue (CI)
 
-Ce projet vise à démontrer :
-- L’usage d’une structure modulaire avec des scripts Python
-- La gestion de version avec Git et GitHub
-- L’industrialisation d’un modèle de machine learning
+Une **GitHub Action** est configurée pour tester automatiquement le projet à chaque `push` ou `pull request` sur les branches `main` ou `dev`.
+
+Le pipeline :
+
+- installe les dépendances (`requirements.txt`)
+- lance l’entraînement du modèle (`train_model.py`)
+- évalue le modèle (`evaluate_model.py`)
+
+📄 Fichier : `.github/workflows/test-model.yml`
+
+---
+
+## 🚀 Déploiement (CD – Continuous Delivery)
+
+Le projet est déployé sous forme d’une application web interactive avec **Gradio** sur [Hugging Face Spaces](https://huggingface.co/spaces/yacineould/P3_ML_deployment).
+
+### 🌐 Fonctionnement
+
+- L’utilisateur renseigne les caractéristiques d’un bâtiment
+- Le modèle prédit sa consommation annuelle d’énergie (en kBtu)
+
+### 🔄 Déploiement automatique
+
+À chaque `git push` sur le dépôt du Space Hugging Face :
+
+- le modèle est mis à jour
+- l’app est relancée automatiquement
+
+---
+
+## 💡 Objectifs pédagogiques
+
+Ce projet permet de :
+
+- Appliquer un pipeline de régression supervisée
+- Nettoyer les données et créer de nouvelles variables
+- Structurer un projet Python de façon modulaire
+- Gérer le versioning avec Git et GitHub
+- Mettre en place une CI avec GitHub Actions
+- Déployer un modèle ML avec Gradio et Hugging Face
 
 ---
 
 ## 👤 Réalisé par
 
 **Yacine Ould**  
-Projet réalisé dans le cadre de la formation Data Scientist – OpenClassrooms.
+Projet réalisé dans le cadre de la formation **Data Scientist – OpenClassrooms**
+
+---
