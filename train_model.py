@@ -44,4 +44,6 @@ print("TRAIN MAE:", mean_absolute_error(y_train, y_pred_rf_train))
 print("TRAIN RMSE:", np.sqrt(mean_squared_error(y_train, y_pred_rf_train)))
 
 # Sauvegarde du modèle
+import os
+os.makedirs("models", exist_ok=True)
 joblib.dump(best_rf, "models/best_random_forest_model.joblib")
