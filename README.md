@@ -88,6 +88,13 @@ Le projet est déployé sous forme d’une application web interactive avec **Gr
 - l’app est relancée automatiquement
 
 ---
+### Précision sur la CI/CD
+
+    La CI est assurée par GitHub Actions sur gitP3
+
+    La CD est déclenchée automatiquement lors du push vers le dépôt Hugging Face
+
+    Donc la CI / CD sont indépendants l'un de l'autre
 
 ## 💡 Objectifs pédagogiques
 
