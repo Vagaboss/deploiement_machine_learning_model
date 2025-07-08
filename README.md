@@ -96,6 +96,18 @@ Le projet est déployé sous forme d’une application web interactive avec **Gr
 
     Donc la CI / CD sont indépendants l'un de l'autre
 
+## 🌐 API avec FastAPI
+
+Une API a été créée avec FastAPI pour exposer le modèle.
+
+### 🔸 Lancer l’API localement
+
+```bash
+uvicorn api.main:app --reload
+
+Une fois lancée, rendez-vous sur : http://127.0.0.1:8000/docs
+Vous pourrez tester l’API via Swagger.
+
 ## 💡 Objectifs pédagogiques
 
 Ce projet permet de :
