@@ -4,3 +4,5 @@ scikit-learn>=1.6
 category-encoders>=2.8
 joblib>=1.5
 matplotlib>=3.10
+fastapi
+uvicorn
