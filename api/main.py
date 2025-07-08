@@ -38,3 +38,8 @@ def predict(data: InputData):
     prediction = model.predict(df)
     return {"prediction": round(float(prediction[0]), 2)}
 
+# Nouveau endpoint de vérification
+@app.get("/health")
+def health_check():
+    return {"status": "✅ API opérationnelle"}
+
