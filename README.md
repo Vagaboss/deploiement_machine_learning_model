@@ -108,6 +108,11 @@ uvicorn api.main:app --reload
 Une fois lancée, rendez-vous sur : http://127.0.0.1:8000/docs
 Vous pourrez tester l’API via Swagger.
 
+### 📍 Endpoints disponibles
+Méthode	Endpoint	Description
+ GET	/health	Vérifie si l'API fonctionne
+ POST	/predict	Envoie des données et retourne une prédiction
+
 ## 💡 Objectifs pédagogiques
 
 Ce projet permet de :
