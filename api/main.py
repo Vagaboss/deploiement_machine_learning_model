@@ -7,6 +7,8 @@ from datetime import datetime
 
 from api.db import SessionLocal
 from api.models import Input, Output
+from api.schemas import InputData, OutputData
+
 
 # Charger le modèle
 model = joblib.load("models/best_rf_pipeline.joblib")
