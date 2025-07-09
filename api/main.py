@@ -69,12 +69,11 @@ def get_history(limit: int = 10, db: Session = Depends(get_db)):
 
     history = []
     for record in results:
-        input_data = InputData(**record.input.__dict__)
-        output_data = OutputData(prediction=round(record.prediction, 2))
+        input_data = InputFromDB.from_orm(record.input)
+        output_data = OutputFromDB.from_orm(record)
         history.append(HistoryRecord(input=input_data, output=output_data))
 
     return history
-
 
 
 

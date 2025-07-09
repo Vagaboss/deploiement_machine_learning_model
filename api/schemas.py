@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
+from typing import List
 
 # === Schéma pour l'entrée utilisateur (requête API) ===
 class InputData(BaseModel):
@@ -43,5 +44,8 @@ class OutputFromDB(BaseModel):
 class HistoryRecord(BaseModel):
     input: InputFromDB
     output: OutputFromDB
+
+    class Config:
+        from_attributes = True
 
 
