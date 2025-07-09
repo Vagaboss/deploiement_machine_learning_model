@@ -17,11 +17,11 @@ class InputData(BaseModel):
     PrimaryPropertyType: str = Field(..., description="Type principal du bâtiment")
     Neighborhood: str = Field(..., description="Quartier de Seattle")
 
-# === Schéma pour la réponse API ===
+# === Schéma pour la réponse de prédiction (API) ===
 class OutputData(BaseModel):
     prediction: float = Field(..., description="Prédiction de la consommation d'énergie (kBtu)")
 
-# === Schéma pour la lecture des entrées depuis la BDD (optionnel) ===
+# === Schéma ORM pour lecture d'une entrée depuis la BDD ===
 class InputFromDB(InputData):
     id: int
     timestamp: datetime
@@ -29,7 +29,7 @@ class InputFromDB(InputData):
     class Config:
         from_attributes = True
 
-# === Schéma pour la lecture des prédictions depuis la BDD (optionnel) ===
+# === Schéma ORM pour lecture d'une prédiction depuis la BDD ===
 class OutputFromDB(BaseModel):
     id: int
     input_id: int
@@ -38,4 +38,10 @@ class OutputFromDB(BaseModel):
 
     class Config:
         from_attributes = True
+
+# === Schéma combiné pour l’historique (input + output) ===
+class HistoryRecord(BaseModel):
+    input: InputFromDB
+    output: OutputFromDB
+
 
