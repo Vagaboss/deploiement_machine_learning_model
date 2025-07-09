@@ -125,3 +125,10 @@ print("TRAIN RMSE:", np.sqrt(mean_squared_error(y_train, y_pred_train)))
 # 11. Sauvegarde du pipeline
 os.makedirs("models", exist_ok=True)
 joblib.dump(best_pipeline, "models/best_rf_pipeline.joblib")
+
+# 12. Sauvegarde du dataset nettoyé (features + target)
+df_cleaned = X.copy()
+df_cleaned["SiteEnergyUse(kBtu)"] = y
+df_cleaned.to_csv("data/cleaned_data.csv", index=False)
+
+print("\n✅ Dataset nettoyé sauvegardé dans data/cleaned_data.csv")
