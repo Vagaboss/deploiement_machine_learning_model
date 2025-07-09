@@ -1,7 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import Optional
+from datetime import datetime
 
-# === Schéma pour l'entrée utilisateur ===
+# === Schéma pour l'entrée utilisateur (requête API) ===
 class InputData(BaseModel):
     PropertyGFATotal: float = Field(..., description="Surface totale du bâtiment en pieds carrés")
     NumberofFloors: int = Field(..., description="Nombre d'étages")
@@ -16,13 +17,25 @@ class InputData(BaseModel):
     PrimaryPropertyType: str = Field(..., description="Type principal du bâtiment")
     Neighborhood: str = Field(..., description="Quartier de Seattle")
 
-# === Schéma pour l'output ===
+# === Schéma pour la réponse API ===
 class OutputData(BaseModel):
     prediction: float = Field(..., description="Prédiction de la consommation d'énergie (kBtu)")
 
-# === Optionnel : Schéma pour la base (lecture possible depuis SQL) ===
+# === Schéma pour la lecture des entrées depuis la BDD (optionnel) ===
 class InputFromDB(InputData):
     id: int
+    timestamp: datetime
 
     class Config:
         orm_mode = True
+
+# === Schéma pour la lecture des prédictions depuis la BDD (optionnel) ===
+class OutputFromDB(BaseModel):
+    id: int
+    input_id: int
+    prediction: float
+    timestamp: datetime
+
+    class Config:
+        orm_mode = True
+
