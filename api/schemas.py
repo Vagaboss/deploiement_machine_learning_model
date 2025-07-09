@@ -27,7 +27,7 @@ class InputFromDB(InputData):
     timestamp: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # === Schéma pour la lecture des prédictions depuis la BDD (optionnel) ===
 class OutputFromDB(BaseModel):
@@ -37,5 +37,5 @@ class OutputFromDB(BaseModel):
     timestamp: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
