@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from datetime import datetime
 
-from db import SessionLocal
-from models import Input, Output
+from api.db import SessionLocal
+from api.models import Input, Output
 
 # Charger le modèle
 model = joblib.load("models/best_rf_pipeline.joblib")
