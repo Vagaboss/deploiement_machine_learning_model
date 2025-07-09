@@ -6,3 +6,4 @@ joblib>=1.5
 matplotlib>=3.10
 fastapi
 uvicorn
+sqlalchemy
