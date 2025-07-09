@@ -46,7 +46,7 @@ for row in inputs:
     # Créer une nouvelle ligne Output
     output = Output(
         input_id=row.id,
-        prediction=prediction,
+        prediction=float(prediction),
         timestamp=datetime.utcnow()
     )
 
