@@ -1,8 +1,9 @@
 import joblib
 import pandas as pd
 from fastapi import FastAPI, Depends
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from datetime import datetime
 
 from api.db import SessionLocal
@@ -27,23 +28,8 @@ def get_db():
     finally:
         db.close()
 
-# Schéma de données entrantes
-class InputData(BaseModel):
-    PropertyGFATotal: float
-    NumberofFloors: int
-    NumberofBuildings: int
-    YearBuilt: int
-    HasGas: bool
-    HasElectricity: bool
-    HasSteam: bool
-    HasParking: bool
-    UsageCount: str
-    PropertyTypeGrouped: str
-    PrimaryPropertyType: str
-    Neighborhood: str
-
 # Endpoint de prédiction
-@app.post("/predict")
+@app.post("/predict", response_model=OutputData)
 def predict(data: InputData, db: Session = Depends(get_db)):
     # Convertir en DataFrame
     df = pd.DataFrame([data.dict()])
@@ -71,11 +57,36 @@ def predict(data: InputData, db: Session = Depends(get_db)):
     db.add(db_output)
     db.commit()
 
-    return {"prediction": round(float(prediction), 2)}
+    return OutputData(prediction=round(float(prediction), 2))
 
-# Endpoint de test
+
+# Endpoint de vérification
 @app.get("/health")
 def health_check():
     return {"status": "✅ API opérationnelle"}
+
+
+# Endpoint d'historique des prédictions
+@app.get("/history", response_model=list[dict])
+def get_history(limit: int = 10, db: Session = Depends(get_db)):
+    results = (
+        db.query(Output)
+        .options(joinedload(Output.input))
+        .order_by(Output.id.desc())
+        .limit(limit)
+        .all()
+    )
+
+    history = []
+    for record in results:
+        input_data = InputData.from_orm(record.input)
+        output_data = OutputData(prediction=round(record.prediction, 2))
+        history.append({
+            "input": input_data.dict(),
+            "prediction": output_data.dict()
+        })
+
+    return history
+
 
 
