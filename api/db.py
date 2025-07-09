@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:<narutolekake1>@localhost:5432/build-seatle"
 
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
 
 # Classe de base pour définir les tables
