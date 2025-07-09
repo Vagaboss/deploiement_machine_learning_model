@@ -7,3 +7,4 @@ matplotlib>=3.10
 fastapi
 uvicorn
 sqlalchemy
+psycopg2-binary
