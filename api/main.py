@@ -8,6 +8,7 @@ from datetime import datetime
 from api.db import SessionLocal
 from api.models import Input, Output
 from api.schemas import InputData, OutputData, HistoryRecord, InputFromDB, OutputFromDB
+from api.models import DatasetCleaned
 
 # Charger le modèle
 model = joblib.load("models/best_rf_pipeline.joblib")
@@ -74,6 +75,14 @@ def get_history(limit: int = 10, db: Session = Depends(get_db)):
         history.append(HistoryRecord(input=input_data, output=output_data))
 
     return history
+
+
+# Endpoint datavisu
+@app.get("/dataset")
+def get_dataset(limit: int = 10, db: Session = Depends(get_db)):
+    rows = db.query(DatasetCleaned).limit(limit).all()
+    return [row.__dict__ for row in rows]
+
 
 
 
