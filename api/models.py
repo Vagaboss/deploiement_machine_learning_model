@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, Float, String, Boolean, DateTime, Foreig
 from sqlalchemy.orm import relationship
 from .db import Base
 from datetime import datetime
+from sqlalchemy import Column, Integer, String, Float, Boolean
+from api.db import Base
 
 class Input(Base):
     __tablename__ = "inputs"
@@ -34,3 +36,26 @@ class Output(Base):
     timestamp = Column(DateTime, default=datetime.utcnow)
 
     input = relationship("Input", back_populates="prediction")
+
+
+
+class DatasetCleaned(Base):
+    __tablename__ = "dataset_cleaned"
+
+    id = Column(Integer, primary_key=True, index=True)
+    primarypropertytype = Column(String)
+    neighborhood = Column(String)
+    yearbuilt = Column(Integer)
+    numberofbuildings = Column(Integer)
+    numberoffloors = Column(Integer)
+    propertygfatotal = Column(Float)
+    usagecount = Column(String)
+    propertytypegrouped = Column(String)
+    haselectricity = Column(Boolean)
+    hasgas = Column(Boolean)
+    hassteam = Column(Boolean)
+    hasparking = Column(Boolean)
+    islarge = Column(Boolean)
+    isrecent = Column(Boolean)
+    age = Column(Integer)
+    siteenergyuse_kbtu = Column(Float)
