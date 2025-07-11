@@ -84,24 +84,36 @@ def train_model(df, save_model_path="models/best_rf_pipeline.joblib", save_csv_p
     grid_search.fit(X_train, y_train)
     best_pipeline = grid_search.best_estimator_
 
-    # 7. Sauvegarde modèle
-    os.makedirs(os.path.dirname(save_model_path), exist_ok=True)
-    joblib.dump(best_pipeline, save_model_path)
+        # 10. Évaluation
+    y_pred_train = best_pipeline.predict(X_train)
+    y_pred_test = best_pipeline.predict(X_test)
 
-    # 8. Sauvegarde données nettoyées
+    # 11. Sauvegarde du pipeline
+    os.makedirs("models", exist_ok=True)
+    joblib.dump(best_pipeline, "models/best_rf_pipeline.joblib")
+
+    # 12. Sauvegarde du dataset nettoyé (features + target)
     df_cleaned = X.copy()
     df_cleaned["SiteEnergyUse(kBtu)"] = y
-    os.makedirs(os.path.dirname(save_csv_path), exist_ok=True)
-    df_cleaned.to_csv(save_csv_path, index=False)
+    df_cleaned.to_csv("data/cleaned_data.csv", index=False)
 
-    return best_pipeline, df_cleaned, grid_search.best_params_
+    return best_pipeline, df_cleaned, grid_search.best_params_, y_test, y_pred_test, y_train, y_pred_train
 
 # 9. Pour exécuter le script en local
 if __name__ == "__main__":
     df = pd.read_csv("data/2016_Building_Energy_Benchmarking.csv")
-    model, df_cleaned, params = train_model(df)
+    model, df_cleaned, params, y_test, y_pred_test, y_train, y_pred_train = train_model(df)
 
     print("\n=== RANDOM FOREST REGRESSOR (Pipeline complet) ===")
     print("Meilleurs hyperparamètres :", params)
-    print("✅ Modèle et dataset nettoyé sauvegardés.")
+    print("✅ Modèle et dataset nettoyé sauvegardé dans data/cleaned_data.csv")
+    print("TEST R²:", r2_score(y_test, y_pred_test))
+    print("TEST MAE:", mean_absolute_error(y_test, y_pred_test))
+    print("TEST RMSE:", np.sqrt(mean_squared_error(y_test, y_pred_test)))
+    print("TRAIN R²:", r2_score(y_train, y_pred_train))
+    print("TRAIN MAE:", mean_absolute_error(y_train, y_pred_train))
+    print("TRAIN RMSE:", np.sqrt(mean_squared_error(y_train, y_pred_train)))
+
+
+
 
