@@ -57,7 +57,12 @@ def test_train_model_runs(tmp_path):
     model_path = tmp_path / "best_model.joblib"
     csv_path = tmp_path / "cleaned_data.csv"
 
-    model, df_cleaned, params = train_model(df_test, save_model_path=str(model_path), save_csv_path=str(csv_path))
+    model, df_cleaned, params, y_test, y_pred_test, y_train, y_pred_train = train_model(
+        df_test,
+        save_model_path=str(model_path),
+        save_csv_path=str(csv_path)
+    )
+
 
     # Vérifications
     assert model is not None

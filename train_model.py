@@ -88,14 +88,15 @@ def train_model(df, save_model_path="models/best_rf_pipeline.joblib", save_csv_p
     y_pred_train = best_pipeline.predict(X_train)
     y_pred_test = best_pipeline.predict(X_test)
 
-    # 11. Sauvegarde du pipeline
-    os.makedirs("models", exist_ok=True)
-    joblib.dump(best_pipeline, "models/best_rf_pipeline.joblib")
+     # Sauvegarde du pipeline
+    os.makedirs(os.path.dirname(save_model_path), exist_ok=True)
+    joblib.dump(best_pipeline, save_model_path)
 
-    # 12. Sauvegarde du dataset nettoyé (features + target)
+    # Sauvegarde du dataset nettoyé (features + target)
     df_cleaned = X.copy()
     df_cleaned["SiteEnergyUse(kBtu)"] = y
-    df_cleaned.to_csv("data/cleaned_data.csv", index=False)
+    os.makedirs(os.path.dirname(save_csv_path), exist_ok=True)
+    df_cleaned.to_csv(save_csv_path, index=False)
 
     return best_pipeline, df_cleaned, grid_search.best_params_, y_test, y_pred_test, y_train, y_pred_train
 
