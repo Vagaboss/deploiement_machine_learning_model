@@ -130,3 +130,63 @@ def test_filter_negative_energy():
     y_combined = pd.concat([y_train, y_test])
     assert all(y_combined > 0), "Certaines valeurs d'énergie <= 0 sont toujours présentes"
     assert len(y_combined) >= 2, "Pas assez de lignes conservées pour split"
+
+
+
+
+
+def test_very_small_dataset_filtered_out():
+    # Donnée volontairement non conforme : SiteEnergyUse(kBtu) <= 0
+    df = pd.DataFrame({
+        'BuildingType': ['NonResidential'],
+        'SiteEnergyUse(kBtu)': [0],  # Cette valeur sera filtrée
+        'OSEBuildingID': [1],
+        'PropertyGFATotal': [1000],
+        'Outlier': [None],
+        'NumberofBuildings': [1],
+        'NumberofFloors': [1],
+        'ComplianceStatus': ['Compliant'],
+        'ListOfAllPropertyUseTypes': ['Office'],
+        'PrimaryPropertyType': ['Office'],
+        'Neighborhood': ['A'],
+        'YearBuilt': [2000],
+        'Electricity(kWh)': [100],
+        'NaturalGas(kBtu)': [1000],
+        'SteamUse(kBtu)': [0],
+        'PropertyGFAParking': [0],
+        'DataYear': [2015],
+        'City': ['Seattle'],
+        'State': ['WA'],
+        'DefaultData': [False],
+        'ZipCode': [98101],
+        'CouncilDistrictCode': [1],
+        'Latitude': [47.6],
+        'Longitude': [-122.3],
+        'PropertyGFABuilding(s)': [1000],
+        'LargestPropertyUseType': ['Office'],
+        'SecondLargestPropertyUseType': [None],
+        'SecondLargestPropertyUseTypeGFA': [None],
+        'ThirdLargestPropertyUseType': [None],
+        'ThirdLargestPropertyUseTypeGFA': [None],
+        'ENERGYSTARScore': [50],
+        'NaturalGas(therms)': [100],
+        'GHGEmissionsIntensity': [10],
+        'SiteEUI(kBtu/sf)': [10],
+        'SiteEUIWN(kBtu/sf)': [10],
+        'SourceEUI(kBtu/sf)': [10],
+        'LargestPropertyUseTypeGFA': [100],
+        'Electricity(kBtu)': [1000],
+        'SiteEnergyUseWN(kBtu)': [9000],
+        'TotalGHGEmissions': [100],
+        'PropertyName': ['B1'],
+        'Address': ['Addr'],
+        'TaxParcelIdentificationNumber': ['TP'],
+        'SourceEUIWN(kBtu/sf)': [10],
+        'Comments': [None],
+        'YearsENERGYSTARCertified': [None]
+    })
+
+    # On attend une erreur car train_test_split n’aura aucune ligne à splitter
+    with pytest.raises(ValueError, match="train set will be empty"):
+        preprocess_data(df)
+
