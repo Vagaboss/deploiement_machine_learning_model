@@ -29,9 +29,13 @@ def preprocess_data(df):
     df = df[df['EUI'] >= 3.70]
 
     # Suppression des outliers spécifiés dans la colonne 'Outlier'
+if not df.empty:
     df_outlier_str = df[df["Outlier"].apply(lambda x: isinstance(x, str))]
     df = df[~df['OSEBuildingID'].isin(df_outlier_str['OSEBuildingID'])]
-    df = df.drop(columns=['Outlier'])
+
+# Ce drop peut rester en dehors car il ne dépend pas du contenu de df_outlier_str
+df = df.drop(columns=['Outlier'])
+
 
     # Garder uniquement les bâtiments valides
     df = df[(df['NumberofBuildings'] != 0) & (df['NumberofFloors'] != 0)]
