@@ -54,7 +54,7 @@ def train_model(df, save_model_path="models/best_rf_pipeline.joblib", save_csv_p
         'HasElectricity', 'HasGas', 'HasSteam', 'HasParking', 'IsLarge', 'IsRecent', 'Age'
     ]]
 
-    # 4. Split
+    # 4. Splitt
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # 5. Pipeline
