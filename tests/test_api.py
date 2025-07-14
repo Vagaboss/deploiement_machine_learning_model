@@ -75,3 +75,39 @@ def test_predict_endpoint_wrong_type():
     assert response.status_code == 422
 
 
+def test_health_endpoint():
+    response = client.get("/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert "status" in data
+    assert isinstance(data["status"], str)
+
+
+
+def test_history_endpoint():
+    response = client.get("/history")
+    assert response.status_code == 200
+    json_data = response.json()
+
+    assert isinstance(json_data, list)
+
+    if len(json_data) > 0:
+        sample = json_data[0]
+        assert "input" in sample
+        assert "output" in sample
+        assert "timestamp" in sample["output"]
+        assert "prediction" in sample["output"]
+
+def test_dataset_endpoint():
+    response = client.get("/dataset?limit=5")
+
+    assert response.status_code == 200, "L’API /dataset devrait répondre 200"
+    data = response.json()
+
+    assert isinstance(data, list), "La réponse doit être une liste"
+    assert len(data) <= 5, "La longueur de la liste ne doit pas dépasser 5"
+
+    if len(data) > 0:
+        # Vérifie que chaque élément est un dictionnaire avec des clés attendues
+        assert isinstance(data[0], dict), "Chaque élément de la liste doit être un dictionnaire"
+        assert "id" in data[0], "Chaque élément doit contenir un champ 'id'"
