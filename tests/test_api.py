@@ -52,3 +52,26 @@ def test_predict_invalid_payload():
     response = client.post("/predict", json=bad_payload)
 
     assert response.status_code == 422  # Unprocessable Entity
+
+
+def test_predict_endpoint_wrong_type():
+    client = TestClient(app)
+    input_data = {
+        "PrimaryPropertyType": "Office",
+        "Neighborhood": "Downtown",
+        "YearBuilt": "deux mille",  # mauvais type
+        "NumberofBuildings": 1,
+        "NumberofFloors": 2,
+        "PropertyGFATotal": 10000.0,
+        "UsageCount": 1,
+        "PropertyTypeGrouped": "Office",
+        "HasElectricity": True,
+        "HasGas": True,
+        "HasSteam": False,
+        "HasParking": False
+    }
+
+    response = client.post("/predict", json=input_data)
+    assert response.status_code == 422
+
+
