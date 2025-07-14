@@ -1,4 +1,4 @@
-name: Test du modèle
+name: Test & Déploiement du modèle
 
 on:
   push:
@@ -23,9 +23,39 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pytest pytest-cov
 
       - name: ▶️ Lancer l'entraînement du modèle
         run: python train_model.py
 
       - name: ✅ Lancer l'évaluation du modèle
         run: python evaluate_model.py
+
+      - name: 🧪 Lancer les tests
+        run: pytest --cov=train_model tests/ --cov-report=term
+
+  deploy:
+    name: 🚀 Déploiement Hugging Face
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔄 Cloner le dépôt
+        uses: actions/checkout@v3
+
+      - name: 🔐 Authentifier avec le token HF
+        run: |
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Bot"
+
+      - name: 🔁 Pousser sur Hugging Face Spaces
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          cd hf_spaces/P3_ML_deployment  
+          git init
+          git remote add origin https://yacineould:${HF_TOKEN}@huggingface.co/spaces/yacineould/P3_ML_deployment
+          git fetch origin
+          git add .
+          git commit -m "🚀 Auto-déploiement depuis GitHub Actions"
+          git push hf main
