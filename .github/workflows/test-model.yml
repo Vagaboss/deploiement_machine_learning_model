@@ -57,4 +57,5 @@ jobs:
           git fetch origin
           git add .
           git commit -m "🚀 Auto-déploiement depuis GitHub Actions"
-          git push hf main
+          git branch -m main
+          git push origin main
