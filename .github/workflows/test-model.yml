@@ -34,7 +34,7 @@ jobs:
 
 
   deploy:
-    name: 🚀 Déploiement Hugging Face
+    name: 🚀 Déploiement Hugging Faces
     needs: test
     runs-on: ubuntu-latest
 
