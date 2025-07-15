@@ -1,7 +1,7 @@
 # tests/test_preprocessing.py
 import pytest
 import pandas as pd
-from preprocessing import preprocess_data
+from src.preprocessing import preprocess_data
 
 def test_preprocess_data_output_shapes():
     # Création d’un mini DataFrame de test (simulé)
