@@ -58,4 +58,4 @@ jobs:
           git add .
           git commit -m "🚀 Auto-déploiement depuis GitHub Actions"
           git branch -m main
-          git push origin main
+          git push origin main --force
