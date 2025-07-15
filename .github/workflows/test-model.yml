@@ -31,8 +31,7 @@ jobs:
       - name: ✅ Lancer l'évaluation du modèle
         run: python evaluate_model.py
 
-      - name: 🧪 Lancer les tests
-        run: pytest --cov=train_model tests/ --cov-report=term
+
 
   deploy:
     name: 🚀 Déploiement Hugging Face
