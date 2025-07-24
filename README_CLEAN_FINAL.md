@@ -6,7 +6,7 @@ Ce dépôt contient l’ensemble du code source et des ressources nécessaires p
 
 ---
 
-## 2. Structure du Dépôt Git
+## 2. Structure du Dépôt Git 1
 
 Le modèle de machine learning, initialement développé dans un notebook, a été migré dans une architecture modulaire avec des fichiers `.py` pour assurer la maintenabilité :
 
