@@ -62,7 +62,6 @@ Le modèle de machine learning, initialement développé dans un notebook, a ét
 │   └── test_train_model.py
 ├── .coverage
 ├── .gitignore
-├── README.md
 ├── README_CLEAN_FINAL.md
 ├── create_db.py
 ├── evaluate_model.py
