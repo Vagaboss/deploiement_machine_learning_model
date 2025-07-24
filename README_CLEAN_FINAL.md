@@ -294,9 +294,79 @@ uvicorn api.main:app --reload
 
     ⚠️ Attention : l’API n’est pas déployée automatiquement. Elle tourne localement ou doit être déployée manuellement (Render, Railway, etc.)
 
-### 13. Mise à jour de la base PostgreSQL
+### 13. Protocole de Mise à jour 
 
-    Pour modifier la structure : adapter create_db.py et exécuter :
+🔁 Protocole de mise à jour régulière
 
-python create_db.py
+Pour assurer la pérennité et la fiabilité du projet, voici un protocole de mise à jour structuré, à suivre tous les mois (ou à chaque évolution majeure) :
+
+1. Mise à jour des données
+
+    📅 Fréquence : mensuelle ou dès qu’un nouveau dataset est disponible.
+
+    🔧 Action : insérer les nouvelles données dans la base PostgreSQL (via psql ou script Python).
+
+    ⚠️ Impact : nécessite potentiellement un réentraînement du modèle.
+
+2. Réentraînement du modèle
+
+    📅 Fréquence : à chaque mise à jour significative des données ou dégradation des performances.
+
+    ⚙️ Action :
+
+    python train_model.py
+    python evaluate_model.py
+
+    ✅ Évaluation : valider que les nouvelles performances sont meilleures ou stables.
+
+    💾 Sauvegarde : remplacer le modèle enregistré dans models/best_rf_pipeline.joblib.
+
+3. Mise à jour de l’API
+
+    🔁 Si la structure du modèle change (nouveaux inputs ou changement de format), mettre à jour :
+
+        Le schéma Pydantic dans main.py
+
+        Les endpoints concernés
+
+        Les tables inputs et outputs de la base PostgreSQL
+
+    Tester localement avec :
+
+    uvicorn api.main:app --reload
+
+4. Mise à jour de l’espace Hugging Face
+
+    📦 Remplacer le fichier modèle dans hf_spaces/P3_ML_deployment/models/
+
+    ⚙️ La CI/CD déclenche automatiquement un nouveau déploiement via GitHub Actions
+
+    🎯 Vérifier le bon fonctionnement de l’interface Gradio
+
+5. Vérification des tests
+
+    🧪 Relancer tous les tests :
+
+    pytest tests/test_preprocessing.py
+    pytest tests/test_train_model.py
+    pytest tests/test_api.py
+
+    🔍 S’assurer qu’ils passent tous à 100% avec pytest-cov
+
+6. Mise à jour de la documentation
+
+    📘 Mettre à jour le README.md :
+
+        Nouvelles instructions d’installation si besoin
+
+        Changement dans les inputs, outputs, ou modèle
+
+        Ajout de nouveaux exemples d’utilisation
+
+7. Versioning
+
+    📌 Utiliser des tags Git pour marquer les nouvelles versions stables :
+
+git tag -a v1.1 -m "Nouveau modèle + API mise à jour"
+git push origin v1.1
 
