@@ -176,10 +176,13 @@ Une base PostgreSQL ("build-seatle") héberge :
 - Le dataset complet
 - Les entrées (`inputs`) et sorties (`outputs`) des requêtes utilisateur effectuées dans l'API
 
+- la BDD Postgre est créée grâce aux fichiers create_db.py ainsi qu'au fichier models.py se trouvant dans le sous dossier api.
+
 ## Connexion via SQLAlchemy
 
 La base est reliée à l’API FastAPI pour historiser les interactions.
-
+- Ce lien est effectué à travers le fichier api/db.py
+- Le lien entre l'api et les tables inputs et outputs se fait au travers des fichiers insert_data.py et insert_outputs.py
 ---
 
 ### 7. Tests Unitaires et Fonctionnels
