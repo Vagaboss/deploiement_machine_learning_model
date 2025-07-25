@@ -9,3 +9,5 @@ uvicorn
 sqlalchemy
 psycopg2-binary
 httpx
+pytest
+pytest-cov
