@@ -171,6 +171,9 @@ Documentation interactive disponible à : `http://127.0.0.1:8000/docs`
 
 ### 6. Base de Données PostgreSQL
 
+# Tutoriel complet dans le README_BDD_PostgreSQL.md #
+
+
 Une base PostgreSQL ("build-seatle") héberge :
 
 - Le dataset complet
