@@ -11,3 +11,6 @@ __pycache__/
 
 # Fichiers Python générés
 *.pyc
+
+# .env.example
+DATABASE_URL=postgresql://OC_yacine:ocyacine2025@localhost:5432/build-seatle
