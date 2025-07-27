@@ -129,10 +129,4 @@ L’API utilise `SQLAlchemy` pour se connecter à la base de données à chaque 
 
 ---
 
-## ✅ Vérification finale
 
-- Base PostgreSQL `build-seatle` : ✅
-- Utilisateur `OC_yacine` avec droits : ✅
-- `.env` configuré : ✅
-- Tables créées via `create_db.py` : ✅
-- API fonctionnelle avec base connectée : ✅
