@@ -1,9 +1,8 @@
 from sqlalchemy import Column, Integer, Float, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from .db import Base
+from api.db import Base
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Float, Boolean
-from api.db import Base
 
 class Input(Base):
     __tablename__ = "inputs"
