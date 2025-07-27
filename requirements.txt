@@ -11,3 +11,4 @@ psycopg2-binary
 httpx
 pytest
 pytest-cov
+python-dotenv
